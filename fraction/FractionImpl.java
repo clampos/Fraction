@@ -13,17 +13,24 @@ public class FractionImpl implements Fraction {
      * @param denominator
      */
 
-    int numerator;
-    int denominator;
+    private int numerator;
+    private int denominator;
 
     public FractionImpl(int numerator, int denominator) {
-        if (denominator == 0) {
+        this.numerator = numerator;
+        this.denominator = denominator;
+
+        if (denominator == 0) { // Deal with denominator of 0
             throw new ArithmeticException("Error occurred: Numerator divided by zero");
         }
-        if (denominator < 0) {
+
+        if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
             this.numerator *= -1;
             this.denominator *= -1;
         }
+
+        this.numerator /= GCD(numerator, denominator);
+        this.denominator /= GCD(numerator, denominator);
     }
 
     /**
@@ -34,7 +41,6 @@ public class FractionImpl implements Fraction {
     public FractionImpl(int wholeNumber) {
         this.numerator = numerator;
         this.denominator = 1;
-
     }
 
     /**
@@ -51,6 +57,12 @@ public class FractionImpl implements Fraction {
     public FractionImpl(String fraction) {
         // TODO
     }
+
+    int GCD(int a, int b) {
+        if (b == 0)
+            return a;
+        return GCD(b, a%b);
+        }
 
     /**
      * @inheritDoc
@@ -97,6 +109,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction negate() {
+        this.numerator *= -1;
         return null;
     }
 

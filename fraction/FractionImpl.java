@@ -12,8 +12,18 @@ public class FractionImpl implements Fraction {
      * @param numerator
      * @param denominator
      */
+
+    int numerator;
+    int denominator;
+
     public FractionImpl(int numerator, int denominator) {
-        // TODO
+        if (denominator == 0) {
+            throw new ArithmeticException("Error occurred: Numerator divided by zero");
+        }
+        if (denominator < 0) {
+            this.numerator *= -1;
+            this.denominator *= -1;
+        }
     }
 
     /**
@@ -22,7 +32,9 @@ public class FractionImpl implements Fraction {
      * @param wholeNumber representing the numerator
      */
     public FractionImpl(int wholeNumber) {
-        // TODO
+        this.numerator = numerator;
+        this.denominator = 1;
+
     }
 
     /**

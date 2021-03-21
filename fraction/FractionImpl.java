@@ -16,17 +16,21 @@ public class FractionImpl implements Fraction {
     private int numerator;  // Instance variables (note that these are private to the class)
     private int denominator;
 
-    public FractionImpl(int numerator, int denominator) {
+    public FractionImpl(int numerator, int denominator) throws ArithmeticException {
         this.numerator = numerator;
         this.denominator = denominator;
 
+        this.numerator /= GCD(numerator, denominator);
+        this.denominator /= GCD(numerator, denominator);
+
+        // Deal with edge cases
         if (denominator == 0) { // Deal with denominator of 0
             throw new ArithmeticException("Error occurred: Numerator divided by zero");
         }
 
         else if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
             this.numerator *= -1;
-            this.denominator *= -1;
+            this.denominator = Math.abs(denominator);
         }
 
         else if (numerator == 0) {  // Zero should be represented as 0/1
@@ -34,8 +38,7 @@ public class FractionImpl implements Fraction {
             this.denominator = 1;
         }
 
-        this.numerator /= GCD(numerator, denominator);
-        this.denominator /= GCD(numerator, denominator);
+
     }
 
     /**
@@ -62,22 +65,28 @@ public class FractionImpl implements Fraction {
     public FractionImpl(String fraction) {
         String [] numDen = fraction.split("/");     // Split String on forward slash
 
+        if (numDen.length != 2) {
+            throw new ArrayIndexOutOfBoundsException("numDem does not contain two elements.");
+        }
+
         if (numDen.length == 1) {       // Following second constructor
             this.numerator = Integer.parseInt(numDen[0]);
             this.denominator = 1;
         }
+
         else if (numDen.length == 2) {      // Following first constructor
             this.numerator = Integer.parseInt(numDen[0]);
             this.denominator = Integer.parseInt(numDen[1]);
         }
 
+        // Deal with edge cases
         if (denominator == 0) { // Deal with denominator of 0
             throw new ArithmeticException("Error occurred: Numerator divided by zero");
         }
 
         else if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
             this.numerator *= -1;
-            this.denominator *= -1;
+            this.denominator = Math.abs(denominator);
         }
 
         else if (numerator == 0) {  // Zero should be represented as 0/1
@@ -87,24 +96,25 @@ public class FractionImpl implements Fraction {
 
         this.numerator /= GCD(numerator, denominator);      // Divide both num and dem by GCD to normalise fraction
         this.denominator /= GCD(numerator, denominator);
+
     }
 
     int GCD(int a, int b) {     // Recursive implementation of Euclid's Algorithm
-        if (b == 0) {
-            return a;
-        }
-        return GCD(b, a % b);
-        }
+        // a = Math.abs(a);
+        // b = Math.abs(b);
+        if (a == 0)
+            return b;
+
+        return GCD(b%a, a);
+    }
 
     /**
      * @inheritDoc
      */
     @Override
-    public Fraction add(Fraction f) {
+    public Fraction add(Fraction f) { // a/b + c/d is (ad + bc)/bd
         FractionImpl fNew = new FractionImpl(f.toString());
-        int sum;
-        sum = ((this.numerator * fNew.denominator) + (this.denominator * fNew.numerator)/(this.denominator * fNew.numerator));
-        Fraction result = new FractionImpl(sum);
+        Fraction result = new FractionImpl((this.numerator * fNew.denominator) + (this.denominator * fNew.numerator), this.denominator * fNew.denominator);
         return result;
     }
 
@@ -112,11 +122,9 @@ public class FractionImpl implements Fraction {
      * @inheritDoc
      */
     @Override
-    public Fraction subtract(Fraction f) {
+    public Fraction subtract(Fraction f) {  // a/b - c/d is (ad - bc)/bd
         FractionImpl fNew = new FractionImpl(f.toString());
-        int sum;
-        sum = ((this.numerator * fNew.denominator) - (this.denominator * fNew.numerator)/(this.denominator * fNew.numerator));
-        Fraction result = new FractionImpl(sum);
+        Fraction result = new FractionImpl((this.numerator * fNew.denominator) - (this.denominator * fNew.numerator), this.denominator * fNew.denominator);
         return result;
     }
 
@@ -124,11 +132,9 @@ public class FractionImpl implements Fraction {
      * @inheritDoc
      */
     @Override
-    public Fraction multiply(Fraction f) {
+    public Fraction multiply(Fraction f) {  // (a/b) * (c/d) is (a*c)/(b*d)
         FractionImpl fNew = new FractionImpl(f.toString());
-        int sum;
-        sum = ((this.numerator * fNew.numerator) / (this.denominator * fNew.denominator));
-        Fraction result = new FractionImpl(sum);
+        Fraction result = new FractionImpl(this.numerator * fNew.numerator, this.denominator * fNew.denominator);
         return result;
     }
 
@@ -136,11 +142,9 @@ public class FractionImpl implements Fraction {
      * @inheritDoc
      */
     @Override
-    public Fraction divide(Fraction f) {
+    public Fraction divide(Fraction f) {    // (a/b) / (c/d) is (a*d)/(b*c)
         FractionImpl fNew = new FractionImpl(f.toString());
-        int sum;
-        sum = ((this.numerator * fNew.denominator) / (this.denominator * fNew.numerator));
-        Fraction result = new FractionImpl(sum);
+        Fraction result = new FractionImpl(this.numerator * fNew.denominator, this.denominator * fNew.numerator);
         return result;
     }
 
@@ -159,8 +163,8 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction negate() {
-        this.numerator *= -1;
-        return this;
+    this.numerator *= -1;
+    return this;
     }
 
     /**
@@ -176,7 +180,15 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (obj instanceof Fraction) {
+            FractionImpl f = new FractionImpl(obj.toString());
+            if (f.numerator == this.numerator && f.denominator == this.denominator) {
+                return true;
+            }
+            else return false;
+        }
+        else return false;
+        // return super.equals(obj);
     }
 
     /**

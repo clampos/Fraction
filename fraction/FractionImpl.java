@@ -13,7 +13,7 @@ public class FractionImpl implements Fraction {
      * @param denominator
      */
 
-    private int numerator;
+    private int numerator;  // Instance variables (note that these are private to the class)
     private int denominator;
 
     public FractionImpl(int numerator, int denominator) {
@@ -24,9 +24,14 @@ public class FractionImpl implements Fraction {
             throw new ArithmeticException("Error occurred: Numerator divided by zero");
         }
 
-        if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
+        else if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
             this.numerator *= -1;
             this.denominator *= -1;
+        }
+
+        else if (numerator == 0) {  // Zero should be represented as 0/1
+            this.numerator = 0;
+            this.denominator = 1;
         }
 
         this.numerator /= GCD(numerator, denominator);
@@ -39,8 +44,8 @@ public class FractionImpl implements Fraction {
      * @param wholeNumber representing the numerator
      */
     public FractionImpl(int wholeNumber) {
-        this.numerator = numerator;
-        this.denominator = 1;
+        this.numerator = wholeNumber;   // Numerator is implicitly wholeNumber
+        this.denominator = 1;   // Denominator is automatically 1
     }
 
     /**
@@ -55,13 +60,40 @@ public class FractionImpl implements Fraction {
      * @param fraction the string representation of the fraction
      */
     public FractionImpl(String fraction) {
-        // TODO
+        String [] numDen = fraction.split("/");     // Split String on forward slash
+
+        if (numDen.length == 1) {       // Following second constructor
+            this.numerator = Integer.parseInt(numDen[0]);
+            this.denominator = 1;
+        }
+        else if (numDen.length == 2) {      // Following first constructor
+            this.numerator = Integer.parseInt(numDen[0]);
+            this.denominator = Integer.parseInt(numDen[1]);
+        }
+
+        if (denominator == 0) { // Deal with denominator of 0
+            throw new ArithmeticException("Error occurred: Numerator divided by zero");
+        }
+
+        else if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
+            this.numerator *= -1;
+            this.denominator *= -1;
+        }
+
+        else if (numerator == 0) {  // Zero should be represented as 0/1
+            this.numerator = 0;
+            this.denominator = 1;
+        }
+
+        this.numerator /= GCD(numerator, denominator);      // Divide both num and dem by GCD to normalise fraction
+        this.denominator /= GCD(numerator, denominator);
     }
 
-    int GCD(int a, int b) {
-        if (b == 0)
+    int GCD(int a, int b) {     // Recursive implementation of Euclid's Algorithm
+        if (b == 0) {
             return a;
-        return GCD(b, a%b);
+        }
+        return GCD(b, a % b);
         }
 
     /**
@@ -69,7 +101,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction add(Fraction f) {
-        return null;
+        FractionImpl fNew = new FractionImpl(f.toString());
+        int sum;
+        sum = ((this.numerator * fNew.denominator) + (this.denominator * fNew.numerator)/(this.denominator * fNew.numerator));
+        Fraction result = new FractionImpl(sum);
+        return result;
     }
 
     /**
@@ -77,7 +113,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction subtract(Fraction f) {
-        return null;
+        FractionImpl fNew = new FractionImpl(f.toString());
+        int sum;
+        sum = ((this.numerator * fNew.denominator) - (this.denominator * fNew.numerator)/(this.denominator * fNew.numerator));
+        Fraction result = new FractionImpl(sum);
+        return result;
     }
 
     /**
@@ -85,7 +125,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction multiply(Fraction f) {
-        return null;
+        FractionImpl fNew = new FractionImpl(f.toString());
+        int sum;
+        sum = ((this.numerator * fNew.numerator) / (this.denominator * fNew.denominator));
+        Fraction result = new FractionImpl(sum);
+        return result;
     }
 
     /**
@@ -93,7 +137,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction divide(Fraction f) {
-        return null;
+        FractionImpl fNew = new FractionImpl(f.toString());
+        int sum;
+        sum = ((this.numerator * fNew.denominator) / (this.denominator * fNew.numerator));
+        Fraction result = new FractionImpl(sum);
+        return result;
     }
 
     /**
@@ -101,7 +149,9 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction abs() {
-        return null;
+        this.numerator = Math.abs(this.numerator);
+        this.denominator = Math.abs(this.denominator);
+        return this;
     }
 
     /**
@@ -110,7 +160,7 @@ public class FractionImpl implements Fraction {
     @Override
     public Fraction negate() {
         this.numerator *= -1;
-        return null;
+        return this;
     }
 
     /**
@@ -142,7 +192,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction inverse() {
-        return null;
+        int num = this.numerator;
+        int den = this.denominator;
+        this.numerator = den;
+        this.denominator = num;
+        return this;
     }
 
     /**
@@ -158,6 +212,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public String toString() {
-        return null;
+        String result = this.numerator + "/" + this.denominator;
+        return result;
     }
 }

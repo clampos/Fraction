@@ -20,25 +20,26 @@ public class FractionImpl implements Fraction {
         this.numerator = numerator;
         this.denominator = denominator;
 
-        this.numerator /= GCD(numerator, denominator);
-        this.denominator /= GCD(numerator, denominator);
+        int gcd = GCD(this.numerator, this.denominator);
+        this.numerator /= gcd;
+        this.denominator /= gcd;
 
         // Deal with edge cases
         if (denominator == 0) { // Deal with denominator of 0
             throw new ArithmeticException("Error occurred: Numerator divided by zero");
         }
-
-        else if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
+        if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
             this.numerator *= -1;
             this.denominator = Math.abs(denominator);
         }
-
-        else if (numerator == 0) {  // Zero should be represented as 0/1
+        else if (denominator < 0 && numerator < 0) {
+            this.numerator *= -1;
+            this.denominator *= -1;
+        }
+        if (numerator == 0) {  // Zero should be represented as 0/1
             this.numerator = 0;
             this.denominator = 1;
         }
-
-
     }
 
     /**
@@ -65,8 +66,8 @@ public class FractionImpl implements Fraction {
     public FractionImpl(String fraction) {
         String [] numDen = fraction.split("/");     // Split String on forward slash
 
-        if (numDen.length != 2) {
-            throw new ArrayIndexOutOfBoundsException("numDem does not contain two elements.");
+        if (numDen.length < 1 || numDen.length > 2) {
+            throw new ArrayIndexOutOfBoundsException("numDem must contain either one or two elements.");
         }
 
         if (numDen.length == 1) {       // Following second constructor
@@ -83,29 +84,28 @@ public class FractionImpl implements Fraction {
         if (denominator == 0) { // Deal with denominator of 0
             throw new ArithmeticException("Error occurred: Numerator divided by zero");
         }
-
-        else if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
+        if (denominator < 0 && numerator > 0) { // Ensure denominator is not negative for negative fraction
             this.numerator *= -1;
             this.denominator = Math.abs(denominator);
         }
-
-        else if (numerator == 0) {  // Zero should be represented as 0/1
+        if (numerator == 0) {  // Zero should be represented as 0/1
             this.numerator = 0;
             this.denominator = 1;
         }
 
-        this.numerator /= GCD(numerator, denominator);      // Divide both num and dem by GCD to normalise fraction
-        this.denominator /= GCD(numerator, denominator);
+        int gcd = GCD(this.numerator, this.denominator);
+        this.numerator /= gcd;    // Divide both num and dem by GCD to normalise fraction
+        this.denominator /= gcd;
 
     }
 
     int GCD(int a, int b) {     // Recursive implementation of Euclid's Algorithm
-        // a = Math.abs(a);
-        // b = Math.abs(b);
+        a = Math.abs(a);
+        b = Math.abs(b);
         if (a == 0)
             return b;
 
-        return GCD(b%a, a);
+        return GCD(b % a, a);
     }
 
     /**
@@ -163,8 +163,10 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction negate() {
-    this.numerator *= -1;
-    return this;
+        int num = this.numerator;
+        int den = this.denominator;
+        Fraction negated = new FractionImpl(num * -1, den);
+    return negated;
     }
 
     /**

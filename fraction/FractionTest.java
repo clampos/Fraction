@@ -84,6 +84,14 @@ public class FractionTest {
     }
 
     @Test
+    public void testSubtract5() {
+        Fraction a = new FractionImpl("65/70");
+        Fraction b = new FractionImpl(64, 70);
+        Fraction c = new FractionImpl(1, 70);
+        assertEquals(a.subtract(b), c);
+    }
+
+    @Test
     public void testMultiply1() {
         Fraction a = new FractionImpl(3,8);
         Fraction b = new FractionImpl(2);
@@ -96,6 +104,30 @@ public class FractionTest {
         Fraction a = new FractionImpl(1,2);
         Fraction b = new FractionImpl(1, 2);
         Fraction c = new FractionImpl(1, 4);
+        assertEquals(a.multiply(b), c);
+    }
+
+    @Test
+    public void testMultiply3() {
+        Fraction a = new FractionImpl(3, 15);
+        Fraction b = new FractionImpl(3);
+        Fraction c = new FractionImpl("3/5");
+        assertEquals(a.multiply(b), c);
+    }
+
+    @Test
+    public void testMultiply4() {
+        Fraction a = new FractionImpl("3/15");
+        Fraction b = new FractionImpl("3");
+        Fraction c = new FractionImpl(3, 5);
+        assertEquals(a.multiply(b), c);
+    }
+
+    @Test
+    public void testMultiply5() {
+        Fraction a = new FractionImpl("21/27");
+        Fraction b = new FractionImpl("2/1");
+        Fraction c = new FractionImpl("14/9");
         assertEquals(a.multiply(b), c);
     }
 
@@ -128,6 +160,14 @@ public class FractionTest {
         Fraction a = new FractionImpl("50/100");
         Fraction b = new FractionImpl("100/200");
         Fraction c = new FractionImpl("1");
+        assertEquals(a.divide(b), c);
+    }
+
+    @Test
+    public void testDivide5() {
+        Fraction a = new FractionImpl(500, 2);
+        Fraction b = new FractionImpl(2, -4);
+        Fraction c = new FractionImpl(-500);
         assertEquals(a.divide(b), c);
     }
 
@@ -181,6 +221,13 @@ public class FractionTest {
         }
 
     @Test
+    public void testNegate5() {
+        Fraction a = new FractionImpl("-20");
+        Fraction b = new FractionImpl(20, 1);
+        assertEquals(a.negate(), b);
+    }
+
+    @Test
     public void testEquals1() {
         Fraction a = new FractionImpl(80, 100);
         Fraction b = new FractionImpl(8, 10);
@@ -207,6 +254,34 @@ public class FractionTest {
     Fraction a = new FractionImpl("3/4");
     Fraction b = new FractionImpl("4/3");
     assertEquals(a.inverse(), b);
+    }
+
+    @Test
+    public void testInverse3() {
+        Fraction a = new FractionImpl("3");
+        Fraction b = new FractionImpl(1, 3);
+        assertEquals(a.inverse(), b);
+    }
+
+    @Test
+    public void testInverse4() {
+        Fraction a = new FractionImpl(1, 3);
+        Fraction b = new FractionImpl(3);
+        assertEquals(a.inverse(), b);
+    }
+
+    @Test
+    public void testInverse5() {
+        Fraction a = new FractionImpl("21/24");
+        Fraction b = new FractionImpl(8, 7);
+        assertEquals(a.inverse(), b);
+    }
+
+    @Test
+    public void testCompareTo1() {
+        Fraction a = new FractionImpl(1, 4);
+        Fraction b = new FractionImpl(1, 3);
+        assert a.compareTo(b) > 0;
     }
 
     @Test

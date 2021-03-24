@@ -20,8 +20,6 @@ public class FractionImpl implements Fraction {
         this.numerator = numerator;
         this.denominator = denominator;
 
-
-
         // Deal with edge cases
         if (denominator == 0) { // Deal with denominator of 0
             throw new ArithmeticException("Error occurred: Numerator divided by zero");
@@ -65,22 +63,23 @@ public class FractionImpl implements Fraction {
      *
      * @param fraction the string representation of the fraction
      */
-    public FractionImpl(String fraction) {
-        String [] numDen = fraction.split("/");     // Split String on forward slash
-
-        if (numDen.length < 1 || numDen.length > 2) {       // Deal with cases where number of integers is not 1 or 2
-            throw new ArrayIndexOutOfBoundsException("numDem must contain either one or two elements.");
+    public FractionImpl(String fraction) throws ArrayIndexOutOfBoundsException, NumberFormatException {
+        String[] numDen = fraction.split("/");     // Split String on forward slash
+        for (int i = 0; i < numDen.length; i++) {
+            numDen[i] = numDen[i].trim();
         }
 
-        if (numDen.length == 1) {       // Following second constructor
-            this.numerator = Integer.parseInt(numDen[0]);
-            this.denominator = 1;
-        }
+            if (numDen.length < 1 || numDen.length > 2) {       // Deal with cases where number of integers is not 1 or 2
+                throw new ArrayIndexOutOfBoundsException("numDem must contain either one or two elements.");
+            }
 
-        else if (numDen.length == 2) {      // Following first constructor
-            this.numerator = Integer.parseInt(numDen[0]);
-            this.denominator = Integer.parseInt(numDen[1]);
-        }
+            if (numDen.length == 1) {       // Following second constructor
+                this.numerator = Integer.parseInt(numDen[0]);
+                this.denominator = 1;
+            } else if (numDen.length == 2) {      // Following first constructor
+                this.numerator = Integer.parseInt(numDen[0]);
+                this.denominator = Integer.parseInt(numDen[1]);
+            }
 
         // Deal with edge cases
         if (denominator == 0) { // Deal with denominator of 0

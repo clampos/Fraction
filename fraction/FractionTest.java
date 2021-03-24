@@ -193,6 +193,67 @@ public class FractionTest {
     }
 
     @Test
+    public void testAbs4() {
+        Fraction a = new FractionImpl(-102, 2);
+        Fraction b = new FractionImpl("102/2");
+        assertEquals(a.abs(), b);
+    }
+
+    @Test
+    public void testAbs5() {
+        Fraction a = new FractionImpl(" -1/4");
+        Fraction b = new FractionImpl(1, 4);
+        assertEquals(a.abs(), b);
+    }
+
+    @Test
+    public void testExceptions1() { // Legal whitespace
+        Fraction a = new FractionImpl("1 /4");
+        Fraction b = new FractionImpl(1, 4);
+        assertTrue(a.equals(b));
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testExceptions2() { // Illegal zero denominator
+        new FractionImpl(2,0);
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testExceptions3() {
+        new FractionImpl("1/ 4 04");
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testExceptions4() {
+        new FractionImpl("1/0");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testExceptions5() {
+        new FractionImpl(" 1 /1-1");
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testExceptions6() {
+        new FractionImpl("1/2/3");
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testExceptions7() {
+        new FractionImpl("/");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testExceptions8() {
+        new FractionImpl(" / ");
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testExceptions9() {
+        new FractionImpl(" -1/ -");
+    }
+
+    @Test
     public void testNegate1() {
         Fraction a = new FractionImpl(1, 4);
         Fraction b = new FractionImpl(-1, 4);
@@ -239,7 +300,27 @@ public class FractionTest {
         Fraction a = new FractionImpl(-2, -8);
         Fraction b = new FractionImpl(1, 4);
         assertEquals(a.equals(b), true);
+    }
 
+    @Test
+    public void testEquals3() {
+        Fraction a = new FractionImpl(" 1/ 1");
+        Fraction b = new FractionImpl(1);
+        assertEquals(a.equals(b), true);
+    }
+
+    @Test
+    public void testEquals4() {
+        Fraction a = new FractionImpl(" 3       / 3     ");
+        Fraction b = new FractionImpl(1);
+        assertEquals(a.equals(b), true);
+    }
+
+    @Test
+    public void testEquals5() {
+        Fraction a = new FractionImpl(0, 1);
+        Fraction b = new FractionImpl(0);
+        assertEquals(a.equals(b), true);
     }
 
     @Test
@@ -282,6 +363,34 @@ public class FractionTest {
         Fraction a = new FractionImpl(1, 4);
         Fraction b = new FractionImpl(1, 3);
         assert a.compareTo(b) > 0;
+    }
+
+    @Test
+    public void testCompareTo2() {
+        Fraction a = new FractionImpl("2/3");
+        Fraction b = new FractionImpl("5/9");
+        assert a.compareTo(b) < 0;
+    }
+
+    @Test
+    public void testCompareTo3() {
+        Fraction a = new FractionImpl(1, 2);
+        Fraction b = new FractionImpl(3, 400);
+        assert a.compareTo(b) < 0;
+    }
+
+    @Test
+    public void testCompareTo4() {
+        Fraction a = new FractionImpl(1, 2);
+        Fraction b = new FractionImpl("1/2");
+        assert a.compareTo(b) == 0;
+    }
+
+    @Test
+    public void testCompareTo5() {
+        Fraction a = new FractionImpl(1, 4);
+        Fraction b = new FractionImpl(250, 1000);
+        assert a.compareTo(b) == 0;
     }
 
     @Test

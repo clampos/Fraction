@@ -227,7 +227,8 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public boolean equals(Object obj) {
-        /* This method first checks that the argument obj is an instance of the Fraction class.
+        /*
+        This method first checks that the argument obj is an instance of the Fraction class.
         It then checks whether both the numerator and the denominator of obj are equal
         to the numerator and denominator of this fraction.
         Returns true if obj is a Fraction equal to this, and false in all other cases.
@@ -289,7 +290,8 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public String toString() {
-        /* If the denominator is 1, only the string value of the numerator of this fraction
+        /*
+        If the denominator is 1, only the string value of the numerator of this fraction
         is returned in the String variable result. Otherwise the string value of the
         numerator of this fraction is concatenated with a forward slash and the string value of the
         denominator of this fraction and returned in the String variable result.

@@ -68,7 +68,7 @@ public class FractionImpl implements Fraction {
         Split string on forward slash and trim leading and trailing whitespace
         around integers. If whitespace exists within integers, it will be caught by the
         NumberFormatException.
-         */
+        */
         String[] numDen = fraction.split("/");
         for (int i = 0; i < numDen.length; i++) {
             numDen[i] = numDen[i].trim();
@@ -106,13 +106,18 @@ public class FractionImpl implements Fraction {
         int gcd = GCD(this.numerator, this.denominator);
         this.numerator /= gcd;    // Divide both num and dem by GCD to normalise fraction
         this.denominator /= gcd;
-
     }
 
     int GCD(int a, int b) {
-        /* Recursive implementation of Euclid's Algorithm.
+        /*
+        Recursive implementation of Euclid's Algorithm.
         This method is used to normalise fractions in the constructors.
-         */
+        It takes two ints as parameters and returns the
+        greatest common divisor (GCD) as an int.
+        Note that this method is tested implicitly whenever it is called
+        within a constructor or in other methods, and therefore
+        is not tested explicitly in FractionTest.
+        */
         a = Math.abs(a);
         b = Math.abs(b);
         if (a == 0)
@@ -125,10 +130,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction add(Fraction f) {
-        /* A new FractionImpl object is created from the argument f
+        /*
+        A new FractionImpl object is created from the argument f
         and a new Fraction result is constructed using the following formula:
         a/b + c/d is (ad + bc)/bd.
-         */
+        */
         FractionImpl fNew = new FractionImpl(f.toString());
         Fraction result = new FractionImpl((this.numerator * fNew.denominator) + (this.denominator * fNew.numerator), this.denominator * fNew.denominator);
         return result;
@@ -139,10 +145,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction subtract(Fraction f) {
-        /* A new FractionImpl object is created from the argument f
+        /*
+        A new FractionImpl object is created from the argument f
         and a new Fraction result is constructed using the following formula:
         a/b - c/d is (ad - bc)/bd.
-         */
+        */
         FractionImpl fNew = new FractionImpl(f.toString());
         Fraction result = new FractionImpl((this.numerator * fNew.denominator) - (this.denominator * fNew.numerator), this.denominator * fNew.denominator);
         return result;
@@ -153,10 +160,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction multiply(Fraction f) {
-        /* A new FractionImpl object is created from the argument f
+        /*
+        A new FractionImpl object is created from the argument f
         and a new Fraction result is constructed using the following formula:
         (a/b) * (c/d) is (a*c)/(b*d).
-         */
+        */
         FractionImpl fNew = new FractionImpl(f.toString());
         Fraction result = new FractionImpl(this.numerator * fNew.numerator, this.denominator * fNew.denominator);
         return result;
@@ -167,7 +175,8 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction divide(Fraction f) {
-        /* A new FractionImpl object is created from the argument f
+        /*
+        A new FractionImpl object is created from the argument f
         and a new Fraction result is constructed using the following formula:
         (a/b) / (c/d) is (a*d)/(b*c).
         */
@@ -181,7 +190,8 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction abs() {
-        /* Returns a new Fraction whose parameters are the absolute values of the
+        /*
+        Returns a new Fraction whose parameters are the absolute values of the
         numerator and denominator of this fraction.
         */
         Fraction result = new FractionImpl(Math.abs(this.numerator), Math.abs(this.denominator));
@@ -193,7 +203,8 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction negate() {
-        /* Returns a new Fraction that has the same numeric value of this fraction,
+        /*
+        Returns a new Fraction that has the same numeric value of this fraction,
         but the opposite sign. It takes as its parameters the negated numerator of this fraction,
         and an unchanged denominator.
         */
@@ -260,12 +271,14 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public int compareTo(Fraction o) {
-        /* In this method, this fraction and the argument o are converted to strings
+        /*
+        In this method, this fraction and the argument o are converted to strings
         and compared lexicographically using the String compareTo() method.
         This method returns:
         A negative int if this is less than o.
         Zero if this is equal to o.
-        A positive int if this is greater than o. */
+        A positive int if this is greater than o.
+        */
         String thisString = this.toString();
         String oString = o.toString();
         return thisString.compareTo(oString);

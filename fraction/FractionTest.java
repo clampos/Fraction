@@ -318,14 +318,14 @@ public class FractionTest {
     }
 
     @Test
-    public void testExceptions1() { // Legal whitespace
+    public void testExceptions1() {
         Fraction a = new FractionImpl("1 /4");
         Fraction b = new FractionImpl(1, 4);
         assertTrue(a.equals(b));
     }
 
     @Test(expected = ArithmeticException.class)
-    public void testExceptions2() { // Illegal zero denominator
+    public void testExceptions2() {
         new FractionImpl(2,0);
     }
 

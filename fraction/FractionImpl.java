@@ -220,7 +220,7 @@ public class FractionImpl implements Fraction {
         It then checks whether both the numerator and the denominator of obj are equal
         to the numerator and denominator of this fraction.
         Returns true if obj is a Fraction equal to this, and false in all other cases.
-         */
+        */
         if (obj instanceof Fraction) {
             FractionImpl f = new FractionImpl(obj.toString());
             if (f.numerator == this.numerator && f.denominator == this.denominator) {

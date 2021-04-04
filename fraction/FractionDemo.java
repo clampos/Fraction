@@ -5,10 +5,11 @@ public class FractionDemo {
         /*
         Several Fraction objects are initialised and
         the results of a variety of operations are printed.
-         */
+        */
         Fraction test = new FractionImpl(1, 2);
         Fraction test2 = new FractionImpl(3, 4);
         Fraction test3 = new FractionImpl(-20, 40);
+        Fraction test4 = new FractionImpl(-50, -200);
 
         Fraction addResult = test.add(test2);
         System.out.println("Expecting addResult to equal 5/4:");
@@ -38,10 +39,13 @@ public class FractionDemo {
         System.out.println("Expecting the boolean result of test.equals(test2) to equal false:");
         System.out.println("Boolean result of test.equals(test2) = " + test.equals(test2));
 
-        System.out.println("Expecting the int result of test.compareTo(test2) to be less than 0 (because 1 comes before 3):");
+        System.out.println("Expecting the int value of test.compareTo(test2) to be less than 0 (because 1 comes before 3):");
         System.out.println("Int value of test.compareTo(test2) = " + test.compareTo(test2));
 
-        System.out.println("Expecting the int result of test.compareTo(test3) to be greater than 0 (because - comes before 1):");
+        System.out.println("Expecting the int value of test.compareTo(test3) to be greater than 0 (because - comes before 1):");
         System.out.println("Int value of test.compareTo(test3) = " + test.compareTo(test3));
+
+        System.out.println("Expecting the string value of test4 to be 1/4:");
+        System.out.println("String value of test4 = " + test4.toString());
     }
 }

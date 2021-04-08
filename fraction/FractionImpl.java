@@ -257,14 +257,14 @@ public class FractionImpl implements Fraction {
     @Override
     public Fraction inverse() {
         /*
-        The inverse of a/b is b/a. This method swaps the numerator and denominator
-        and returns this fraction.
+        Returns a new Fraction that is the inverse of this fraction (the inverse of a/b is b/a).
+        This method swaps the numerator and denominator of this fraction and passes them as arguments
+        to the new Fraction.
         */
-        int num = this.numerator;
-        int den = this.denominator;
-        this.numerator = den;
-        this.denominator = num;
-        return this;
+        int num = this.denominator;
+        int den = this.numerator;
+        Fraction result = new FractionImpl(num, den);
+        return result;
     }
 
     /**
